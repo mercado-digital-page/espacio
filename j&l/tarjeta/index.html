@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!---Meta--->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!---Page Icon---> 
+    <link rel="shortcut icon" href="favicon.svg">
+  <!--CSS Documents-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <!---Scripts--->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+  <style>
+    * {
+      font-family: 'Montserrat', sans-serif;
+    }
+    :root {
+      --primary-color: #011248;
+      --accent-color: #FDB500;
+    }
+    .bg-primary {
+      background-color: var(--primary-color);
+    }
+    .text-primary {
+      color: var(--primary-color);
+    }
+    .bg-accent {
+      background-color: var(--accent-color);
+    }
+    .text-accent {
+      color: var(--accent-color);
+    }
+    .border-accent {
+      border-color: var(--accent-color);
+    }
+    .hover-bg-accent:hover {
+      background-color: var(--accent-color);
+    }
+    .hover-text-accent:hover {
+      color: var(--accent-color);
+    }
+    .card-hover-effect {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover-effect:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(1, 18, 72, 0.1);
+    }
+    .btn-contact-effect {
+      transition: all 0.2s ease;
+    }
+    .btn-contact-effect:hover {
+      transform: translateY(-3px) scale(1.03);
+      filter: brightness(1.1);
+    }
+  </style>
+  <title>J&L Electro Servicios Generales | Tarjeta de Presentación</title>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="max-w-md w-full">
+    <!-- Tarjeta Principal -->
+    <div class="bg-white rounded-xl shadow-2xl overflow-hidden card-hover-effect">
+      <!-- Encabezado con color primario -->
+      <div class="bg-primary text-white p-6 text-center">
+        <div class="flex justify-center mb-4">
+          <img src="multimedia/profile.png" alt="Logo J&L Electro" class="w-24 h-24 rounded-full border-4 border-white object-cover">
+        </div>
+        <h1 class="text-2xl font-bold">J&L Electro Servicios Generales</h1>
+        <p class="text-accent font-medium">Tu Seguridad y Confort Eléctrico en Piura</p>
+      </div>
+      
+      <!-- Contenido -->
+      <div class="p-6">
+        <!-- Descripción breve -->
+        <div class="mb-6">
+          <p class="text-gray-700 text-sm">
+            Soluciones eléctricas y de seguridad para hogares y negocios en Piura. Instalaciones seguras, eficientes y con la más alta calidad.
+          </p>
+        </div>
+        
+        <!-- Servicios destacados -->
+        <div class="mb-6">
+          <h3 class="text-primary font-semibold mb-3 border-l-4 border-accent pl-2">Servicios</h3>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="flex items-start space-x-2">
+              <span class="iconify text-accent mt-1" data-icon="mdi:cctv"></span>
+              <span class="text-xs">Cámaras HD</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <span class="iconify text-accent mt-1" data-icon="mdi:alarm-light-outline"></span>
+              <span class="text-xs">Alarmas</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <span class="iconify text-accent mt-1" data-icon="mdi:wall-fire"></span>
+              <span class="text-xs">Cercos Eléctricos</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <span class="iconify text-accent mt-1" data-icon="mdi:power-plug-outline"></span>
+              <span class="text-xs">Instalaciones</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contacto -->
+        <div class="mb-6">
+          <h3 class="text-primary font-semibold mb-3 border-l-4 border-accent pl-2">Contacto</h3>
+          <div class="space-y-2">
+            <div class="flex items-center">
+              <span class="iconify mr-2 text-primary" data-icon="mdi:phone-outline"></span>
+              <a href="tel:955679216" class="text-sm hover-text-accent">955 679 216</a>
+            </div>
+            <div class="flex items-center">
+              <span class="iconify mr-2 text-primary" data-icon="mdi:phone-outline"></span>
+              <a href="tel:923996572" class="text-sm hover-text-accent">923 996 572</a>
+            </div>
+            <div class="flex items-center">
+              <span class="iconify mr-2 text-primary" data-icon="mdi:email-outline"></span>
+              <a href="mailto:jylelectroservicios@gmail.com" class="text-sm hover-text-accent">jylelectroservicios@gmail.com</a>
+            </div>
+            <div class="flex items-center">
+              <span class="iconify mr-2 text-primary" data-icon="mdi:map-marker-outline"></span>
+              <span class="text-sm">Piura, Perú</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Botones de acción -->
+        <div class="flex flex-col space-y-3">
+          <a href="https://wa.me/51955679216?text=Hola,%20me%20gustaría%20más%20información%20sobre%20sus%20servicios" 
+             target="_blank" 
+             class="bg-accent hover-bg-yellow-400 text-primary font-semibold py-2 px-4 rounded-lg shadow-md btn-contact-effect flex items-center justify-center">
+            <span class="iconify mr-2" data-icon="mdi:whatsapp"></span> ¡Cotiza GRATIS!
+          </a>
+          <a href="mailto:jylelectroservicios@gmail.com" 
+             class="bg-white border border-primary text-primary hover-bg-primary hover-text-white font-semibold py-2 px-4 rounded-lg shadow-md btn-contact-effect flex items-center justify-center">
+            <span class="iconify mr-2" data-icon="mdi:email-outline"></span> Enviar Correo
+          </a>
+        </div>
+      </div>
+      
+      <!-- Pie de tarjeta -->
+      <div class="bg-gray-50 p-4 text-center text-xs text-gray-500">
+        <p>© <span id="currentYear"></span> J&L Electro Servicios Generales. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón flotante de WhatsApp -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/51955679216?text=Hola,%20necesito%20una%20cotización!" 
+       target="_blank"
+       class="bg-accent hover-bg-yellow-400 text-primary p-4 rounded-full shadow-xl flex items-center justify-center btn-contact-effect"
+       aria-label="Contactar por WhatsApp">
+      <span class="iconify text-2xl" data-icon="mdi:whatsapp"></span>
+    </a>
+  </div>
+
+  <script>
+    // Año actual
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Inicializar iconos
+    if (window.Iconify) {
+      window.Iconify.scan();
+    }
+  </script>
+</body>
+</html>
