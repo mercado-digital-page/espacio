@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const dataFile = 'https://mercado-digital-page.github.io/admin/clientes/data.json';
-    const companyId = ''; // ID de la empresa a mostrar
+    const dataFile = '../../admin/clientes/data.json';
+    const companyId = window.companyProfileConfig?.companyId || ''; // Usa el ID configurado
 
+    // Resto del código permanece igual...
     function hexToRgb(hex) {
         const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
         hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
