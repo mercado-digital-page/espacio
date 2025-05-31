@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const dataFile = 'https://mercado-digital-page.github.io/admin/clientes/data.json';
-    const companyId = 'pv-energy'; // ID de la empresa a mostrar
+    const companyId = ''; // ID de la empresa a mostrar
 
     function hexToRgb(hex) {
         const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -69,13 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Banner y perfil
         const bannerImg = document.getElementById('bannerImg');
         if (bannerImg) {
-            bannerImg.src = `../../../admin/clientes/multimedia/${data.id}/banner.png`;
+            bannerImg.src = `multimedia/${data.id}/banner.png`;
             bannerImg.alt = `Banner de ${data.name}`;
         }
         
         const profileImg = document.getElementById('profileImg');
         if (profileImg) {
-            profileImg.src = `../../../admin/clientes/multimedia/${data.id}/profile.png`;
+            profileImg.src = `multimedia/${data.id}/profile.png`;
             profileImg.alt = `Perfil de ${data.name}`;
         }
         
