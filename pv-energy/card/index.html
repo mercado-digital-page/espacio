@@ -82,7 +82,7 @@
         const data = await response.json();
         
         // Buscar el cliente J&L en el array
-        const jlData = data.find(item => item.id === 'j&l');
+        const jlData = data.find(item => item.id === 'pv-energy');
         
         if (jlData) {
           updateMetaTags(jlData);
