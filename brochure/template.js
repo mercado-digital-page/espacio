@@ -69,13 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Banner y perfil
         const bannerImg = document.getElementById('bannerImg');
         if (bannerImg) {
-            bannerImg.src = `multimedia/${data.id}/banner.png`;
+            bannerImg.src = `../../admin/multimedia/${data.id}/banner.png`;
             bannerImg.alt = `Banner de ${data.name}`;
         }
         
         const profileImg = document.getElementById('profileImg');
         if (profileImg) {
-            profileImg.src = `multimedia/${data.id}/profile.png`;
+            profileImg.src = `../../admin/multimedia/${data.id}/profile.png`;
             profileImg.alt = `Perfil de ${data.name}`;
         }
         
