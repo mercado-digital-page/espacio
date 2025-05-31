@@ -1,344 +1,269 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="favicon.svg">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-    <title id="pageTitle">Perfil de Empresa</title>
-    <style>
-        :root {
-            --primary-color: #011248;
-            --accent-color: #FDB500;
-            --primary-text-color: #333;
-            --secondary-text-color: #555;
-            --background-light-color: #f0f2f5;
-            --background-card-color: #ffffff;
+document.addEventListener('DOMContentLoaded', () => {
+    const dataFile = 'https://mercado-digital-page.github.io/admin/clientes/data.json';
+    const companyId = window.companyProfileConfig?.companyId || ''; // Usa el ID configurado
+
+    function hexToRgb(hex) {
+        const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    function safeSetContent(elementId, content) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.textContent = content;
+        } else {
+            console.warn(`Elemento con ID ${elementId} no encontrado`);
         }
+    }
 
-        * {
-            font-family: 'Montserrat', sans-serif;
-            scroll-behavior: smooth;
+    function safeSetHTML(elementId, html) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.innerHTML = html;
+        } else {
+            console.warn(`Elemento con ID ${elementId} no encontrado`);
         }
+    }
 
-        body {
-            background-color: var(--background-light-color);
-            color: var(--primary-text-color);
-            line-height: 1.6;
-        }
-
-        /* Clases dinámicas para colores */
-        .text-dynamic-primary { color: var(--primary-color); }
-        .bg-dynamic-primary { background-color: var(--primary-color); }
-        .border-dynamic-primary { border-color: var(--primary-color); }
-        .text-dynamic-accent { color: var(--accent-color); }
-        .bg-dynamic-accent { background-color: var(--accent-color); }
-        .border-dynamic-accent { border-color: var(--accent-color); }
-        .hover-text-dynamic-accent:hover { color: var(--accent-color); }
-        .hover-bg-dynamic-accent:hover { background-color: var(--accent-color); }
-
-        .banner-container {
-            width: 100%;
-            max-height: 450px;
-            overflow: hidden;
-            position: relative;
-            background-color: var(--primary-color);
-        }
-
-        .banner-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-image-container {
-            margin-top: -80px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .profile-image {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--background-card-color);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1.25rem;
-            border-left-width: 4px;
-            padding-left: 0.75rem;
-        }
-
-        .reliability-dial {
-            width: 120px;
-            height: 120px;
-            position: relative;
-        }
-
-        .reliability-dial circle {
-            transition: stroke-dashoffset 1s ease-out;
-        }
-
-        .reliability-dial .value-text {
-            font-size: 0.7rem;
-            font-weight: bold;
-            fill: var(--primary-color);
-        }
-
-        .service-image {
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            border-radius: 0.375rem;
-        }
-
-        .cta-main-icon {
-            font-size: 4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .cta-button-icon {
-            font-size: 1.8em;
-            margin-right: 0.5rem;
-        }
-
-        /* Layout improvements */
-        aside {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        aside section {
-            flex: 1;
-            min-height: 0;
-        }
-
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 var(--accent-color); opacity: 0.7; }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(253, 181, 0, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(253, 181, 0, 0); }
-        }
-
-        .animate-fadeIn {
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        .primary-cta-button {
-            animation: pulse 2s infinite;
-        }
-
-        .card-hover-effect {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card-hover-effect:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(var(--rgb-primary-color), 0.1);
-        }
-
-        .btn-contact-effect {
-            transition: all 0.2s ease;
-        }
-
-        .btn-contact-effect:hover {
-            transform: translateY(-3px) scale(1.03);
-            filter: brightness(1.1);
-        }
-
-        .floating-whatsapp {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            z-index: 1000;
-            animation: fadeIn 0.5s ease-out 1s forwards;
-            opacity: 0;
-        }
-
-        /* Ajustes para altura automática */
-        .auto-height {
-            height: auto !important;
-            min-height: unset !important;
-        }
-
-        @media (max-width: 640px) {
-            .banner-container {
-                max-height: 250px;
+    fetch(dataFile)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(companies => {
+            // Buscar la empresa específica por id
+            const companyData = companies.find(company => company.id === companyId);
+            if (!companyData) {
+                throw new Error(`No se encontró la empresa con id: ${companyId}`);
             }
 
-            .profile-image {
-                width: 120px;
-                height: 120px;
+            const root = document.documentElement;
+            if (companyData.primaryColor && companyData.accentColor) {
+                root.style.setProperty('--primary-color', companyData.primaryColor);
+                root.style.setProperty('--accent-color', companyData.accentColor);
+                
+                const primaryRgb = hexToRgb(companyData.primaryColor);
+                if (primaryRgb) {
+                    root.style.setProperty('--rgb-primary-color', `${primaryRgb.r}, ${primaryRgb.g}, ${primaryRgb.b}`);
+                }
             }
+            populatePage(companyData);
+        })
+        .catch(error => {
+            console.error("Error al cargar el archivo JSON:", error);
+            document.body.innerHTML = `<div class="text-center p-10 bg-red-100 text-red-700"><h1>Error al cargar la información.</h1><p>${error.message}</p>Por favor, verifica que el archivo 'data.json' exista y esté bien formado.</div>`;
+        });
 
-            #about, #whyChooseUsContainer {
-                height: auto !important;
-                min-height: unset !important;
-            }
+    function populatePage(data) {
+        // Verificar y establecer valores seguros
+        safeSetContent('pageTitle', `${data.name} | ${data.platformName || 'Perfil'}`);
+        
+        // Banner y perfil
+        const bannerImg = document.getElementById('bannerImg');
+        if (bannerImg) {
+            bannerImg.src = `multimedia/${data.id}/banner.png`;
+            bannerImg.alt = `Banner de ${data.name}`;
+        }
+        
+        const profileImg = document.getElementById('profileImg');
+        if (profileImg) {
+            profileImg.src = `multimedia/${data.id}/profile.png`;
+            profileImg.alt = `Perfil de ${data.name}`;
+        }
+        
+        safeSetContent('companyName', data.name || '');
+        safeSetContent('companyTagline', data.slogan || '');
+        safeSetContent('companyDescription', data.about || '');
 
-            #companyDescription, #whyChooseUsContent {
-                overflow: visible !important;
-                white-space: normal !important;
-                word-wrap: break-word !important;
-            }
-
-            aside section {
-                flex: 0 1 auto !important;
-            }
-
-            .bg-background-card-color {
-                height: auto !important;
-            }
-
-            .text-secondary-text-color {
-                white-space: normal !important;
-                overflow: visible !important;
+        // Why Choose Us
+        const whyChooseUsContent = document.getElementById('whyChooseUsContent');
+        if (whyChooseUsContent) {
+            whyChooseUsContent.innerHTML = '';
+            if (data.whyChooseUs && data.whyChooseUs.length > 0) {
+                data.whyChooseUs.forEach(item => {
+                    const itemEl = `
+                        <div class="flex items-start space-x-3">
+                            <span class="iconify text-4xl mt-1 text-dynamic-accent" data-icon="${item.icon || 'mdi:check-circle-outline'}"></span>
+                            <div>
+                                <h4 class="font-semibold text-dynamic-primary">${item.title || ''}</h4>
+                                <p class="text-sm text-secondary-text-color">${item.text || ''}</p>
+                            </div>
+                        </div>
+                    `;
+                    whyChooseUsContent.innerHTML += itemEl;
+                });
+            } else {
+                const whyChooseUsContainer = document.getElementById('whyChooseUsContainer');
+                if (whyChooseUsContainer) whyChooseUsContainer.style.display = 'none';
             }
         }
-    </style>
-</head>
 
-<body class="bg-background-light-color text-primary-text-color">
+        // Reliability Score
+        const reliabilityScore = data.reliabilityScore || 0;
+        const circleProgress = document.getElementById('reliabilityCircleProgress');
+        const reliabilityText = document.getElementById('reliabilityText');
+        if (circleProgress && reliabilityText) {
+            const circumference = 2 * Math.PI * 15.9155;
+            const offset = circumference - (reliabilityScore / 100) * circumference;
+            circleProgress.style.strokeDasharray = `${circumference - offset}, ${circumference}`;
+            reliabilityText.textContent = `${reliabilityScore}%`;
+        }
 
-    <div class="w-full">
-        <header class="banner-container shadow-lg">
-            <img id="bannerImg" src="" alt="Banner de la empresa" class="banner-image">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
-        </header>
+        // Services
+        const servicesContainer = document.getElementById('servicesContainer');
+        if (servicesContainer) {
+            servicesContainer.innerHTML = '';
+            if (data.services && data.services.length > 0) {
+                data.services.forEach((service, index) => {
+                    const serviceCard = `
+                        <div class="bg-background-card-color p-4 rounded-lg shadow-md card-hover-effect animate-fadeIn flex flex-col" style="animation-delay: ${0.3 + index * 0.1}s;">
+                            <img src="${service.image || ''}" alt="${service.name || ''}" class="w-full service-image mb-3">
+                            <div class="flex items-center mb-2">
+                                <span class="iconify text-2xl mr-2 text-dynamic-accent" data-icon="${service.icon || ''}"></span>
+                                <h3 class="text-lg font-semibold text-dynamic-primary">${service.name || ''}</h3>
+                            </div>
+                            <p class="text-secondary-text-color text-xs flex-grow">${service.description || ''}</p>
+                        </div>
+                    `;
+                    servicesContainer.innerHTML += serviceCard;
+                });
+            }
+        }
 
-        <div class="bg-background-card-color shadow-md">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col sm:flex-row items-center sm:items-end pt-4 pb-6">
-                    <div class="profile-image-container">
-                        <img id="profileImg" src="" alt="Foto de perfil" class="profile-image">
-                    </div>
-                    <div class="mt-4 sm:mt-0 sm:ml-6 flex-grow text-center sm:text-left">
-                        <h1 id="companyName" class="text-3xl md:text-4xl font-bold text-dynamic-primary"></h1>
-                        <p id="companyTagline" class="text-md text-secondary-text-color opacity-90"></p>
-                    </div>
-                    <nav class="mt-4 sm:mt-0 flex space-x-4 sm:space-x-6">
-                        <a href="#about"
-                            class="font-medium transition duration-300 text-dynamic-primary hover-text-dynamic-accent">Nosotros</a>
-                        <a href="#services"
-                            class="font-medium transition duration-300 text-dynamic-primary hover-text-dynamic-accent">Servicios</a>
-                        <a href="#contact"
-                            class="font-medium transition duration-300 text-dynamic-primary hover-text-dynamic-accent">Contacto</a>
-                    </nav>
-                </div>
-            </div>
-        </div>
+        // Contact Email
+        const contactEmailLink = document.getElementById('contactEmail')?.querySelector('a');
+        if (contactEmailLink && data.emails && data.emails.length > 0) {
+            contactEmailLink.href = `mailto:${data.emails[0] || ''}`;
+            contactEmailLink.textContent = data.emails[0] || '';
+        }
 
-        <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <aside class="lg:col-span-1">
-                <section id="about" class="bg-background-card-color p-6 rounded-xl shadow-lg animate-fadeIn card-hover-effect auto-height"
-                    style="animation-delay: 0.1s;">
-                    <h2 class="section-title text-dynamic-primary border-dynamic-accent">Sobre Nosotros</h2>
-                    <p id="companyDescription" class="text-secondary-text-color leading-relaxed text-sm"></p>
-                </section>
+        // Contact Phones
+        const phonesContainer = document.getElementById('contactPhonesContainer');
+        if (phonesContainer && data.phones) {
+            phonesContainer.innerHTML = '';
+            data.phones.forEach(phone => {
+                const phoneEl = document.createElement('div');
+                phoneEl.classList.add('flex', 'items-center', 'text-sm');
+                phoneEl.innerHTML = `
+                    <span class="iconify mr-3 text-xl text-dynamic-primary" data-icon="mdi:phone-outline"></span>
+                    <span class="text-secondary-text-color">${phone.number || ''}</span>
+                `;
+                phonesContainer.appendChild(phoneEl);
+            });
+        }
 
-                <section id="whyChooseUsContainer"
-                    class="bg-background-card-color p-6 rounded-xl shadow-lg animate-fadeIn card-hover-effect auto-height"
-                    style="animation-delay: 0.15s;">
-                    <h2 class="section-title text-dynamic-primary border-dynamic-accent">Por Qué Elegirnos</h2>
-                    <div id="whyChooseUsContent" class="space-y-4">
-                    </div>
-                </section>
-
-                <section id="reliability"
-                    class="bg-background-card-color p-6 rounded-xl shadow-lg animate-fadeIn card-hover-effect auto-height"
-                    style="animation-delay: 0.2s;">
-                    <h2 class="section-title text-dynamic-primary border-dynamic-accent">Nivel de Confianza</h2>
-                    <div class="flex flex-col items-center">
-                        <svg id="reliabilityDial" class="reliability-dial" viewBox="0 0 36 36">
-                            <path class="text-gray-200" stroke-width="3" fill="none" stroke="currentColor"
-                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            <path id="reliabilityCircleProgress" class="text-dynamic-accent" stroke-width="3" fill="none"
-                                stroke="currentColor" stroke-linecap="round" stroke-dasharray="0, 100"
-                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            <text id="reliabilityText" x="18" y="20.35" class="value-text text-dynamic-primary"
-                                text-anchor="middle"></text>
-                        </svg>
-                        <p class="mt-3 text-secondary-text-color text-center text-sm">Basado en valoraciones y proyectos.</p>
-                    </div>
-                </section>
-
-                <section id="quickContact"
-                    class="bg-background-card-color p-6 rounded-xl shadow-lg animate-fadeIn card-hover-effect auto-height"
-                    style="animation-delay: 0.3s;">
-                    <h2 class="section-title text-dynamic-primary border-dynamic-accent">Contacto Directo</h2>
-                    <div id="contactEmail" class="flex items-center mb-3">
-                        <span class="iconify mr-3 text-xl text-dynamic-primary" data-icon="mdi:email-outline"></span>
-                        <a href=""
-                            class="text-secondary-text-color hover-text-dynamic-accent transition duration-300 text-sm"></a>
-                    </div>
-                    <div id="contactPhonesContainer" class="space-y-2 mb-3"></div>
-                    <div id="contactLocation" class="flex items-start mb-4">
-                        <i class="far fa-map-marker-alt mr-3 text-xl text-dynamic-primary mt-1"></i>
-                        <div class="flex-grow">
-                            <span class="text-secondary-text-color text-sm"></span>
-                            <div id="mapContainer" class="mt-3 rounded-lg overflow-hidden"></div>
+        // Contact Location with Google Maps iframe
+        const contactLocation = document.getElementById('contactLocation');
+        if (contactLocation && data.mapsLink) {
+            contactLocation.innerHTML = `
+                <div class="flex items-start">
+                    <span class="iconify mr-3 text-xl text-dynamic-primary" data-icon="mdi:map-marker-outline"></span>
+                    <div>
+                        <span class="text-secondary-text-color text-sm">${data.location || ''}</span>
+                        <div class="mt-3 rounded-lg overflow-hidden">
+                            <iframe 
+                                src="https://maps.google.com/maps?q=${encodeURIComponent(data.location)}&output=embed"
+                                width="100%" 
+                                height="150" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy">
+                            </iframe>
                         </div>
                     </div>
-                    <div id="socialMediaContainer" class="flex justify-start space-x-3 mt-4"></div>
-                </section>
-            </aside>
+                </div>
+            `;
+        }
 
-            <div class="lg:col-span-2 space-y-8">
-                <section id="services" class="bg-background-card-color p-6 rounded-xl shadow-lg animate-fadeIn auto-height"
-                    style="animation-delay: 0.4s;">
-                    <h2 class="section-title text-dynamic-primary border-dynamic-accent">Nuestros Servicios</h2>
-                    <div id="servicesContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
-                </section>
+        // Social Media Links
+        const socialMediaContainer = document.getElementById('socialMediaContainer');
+        if (socialMediaContainer) {
+            socialMediaContainer.innerHTML = '';
+            
+            const socialLinks = [
+                { platform: 'facebook', icon: 'fa-brands fa-facebook-f' },
+                { platform: 'instagram', icon: 'fa-brands fa-instagram' },
+                { platform: 'tiktok', icon: 'fa-brands fa-tiktok' },
+                { platform: 'youtube', icon: 'fa-brands fa-youtube' },
+                { platform: 'website', icon: 'fa-solid fa-globe' }
+            ];
+            
+            socialLinks.forEach(social => {
+                if (data[social.platform]) {
+                    const link = document.createElement('a');
+                    link.href = data[social.platform];
+                    link.target = '_blank';
+                    link.className = 'inline-flex items-center justify-center w-10 h-10 rounded-full bg-dynamic-primary text-white hover:bg-dynamic-accent transition-colors duration-300';
+                    link.innerHTML = `<i class="${social.icon}"></i>`;
+                    socialMediaContainer.appendChild(link);
+                }
+            });
+        }
 
-                <section id="contact" class="bg-dynamic-primary text-white p-8 rounded-xl shadow-2xl animate-fadeIn auto-height"
-                    style="animation-delay: 0.5s;">
-                    <div class="text-center">
-                        <i class="far fa-shield-check cta-main-icon text-dynamic-accent mx-auto"></i>
-                        <h2 id="ctaTitle" class="text-3xl font-bold mb-3"></h2>
-                        <p id="ctaText" class="text-lg opacity-90 mb-8 max-w-xl mx-auto"></p>
-                        <div id="mainContactButtonsContainer"
-                            class="flex flex-col sm:flex-row justify-center items-center gap-4"></div>
-                    </div>
-                </section>
-            </div>
-        </main>
+        // CTA Section
+        safeSetContent('ctaTitle', data.callToAction?.title || '');
+        safeSetContent('ctaText', data.callToAction?.text || '');
 
-        <footer class="bg-dynamic-primary text-gray-300 py-8 text-center mt-12">
-            <p>&copy; <span id="footerYear"></span> Mercado Digital. Todos los derechos reservados.</p>
-            <p class="text-sm opacity-80 mt-2">
-                <span id="footerCreditsPrefix"></span>
-            </p>
-        </footer>
-    </div>
+        // Contact Buttons
+        const mainContactButtonsContainer = document.getElementById('mainContactButtonsContainer');
+        const floatingWhatsappButtonContainer = document.getElementById('floatingWhatsappButtonContainer');
+        if (mainContactButtonsContainer && data.phones) {
+            mainContactButtonsContainer.innerHTML = '';
+            let primaryWhatsappPhone = null;
 
-    <div id="floatingWhatsappButtonContainer" class="floating-whatsapp">
-        <a href="#" class="">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-    </div>
-    <script>
-        // Configuración del cliente a mostrar
-        window.companyProfileConfig = {
-            companyId: 'pv-energy'
-        };
-    </script>
-    <script src="https://mercado-digital-page.github.io/espacio/brochure/template.js"></script>
-</body>
-</html>
+            data.phones.forEach(phone => {
+                if (phone.whatsapp) {
+                    const isPrimary = phone.isPrimaryCta;
+                    if (isPrimary) primaryWhatsappPhone = phone;
+
+                    const buttonBaseClasses = "font-semibold py-3 px-6 rounded-lg shadow-lg btn-contact-effect flex items-center justify-center min-w-[240px] text-base hover-bg-dynamic-primary";
+                    const primaryButtonClasses = `bg-dynamic-accent text-dynamic-primary primary-cta-button ${buttonBaseClasses}`;
+                    const secondaryButtonClasses = `bg-transparent border-2 border-dynamic-accent hover-bg-dynamic-primary hover-text-dynamic-primary text-dynamic-accent ${buttonBaseClasses}`;
+                    
+                    const buttonClass = isPrimary ? primaryButtonClasses : secondaryButtonClasses;
+
+                    const whatsappButton = `
+                        <a href="https://wa.me/${phone.whatsapp}?text=${encodeURIComponent('Hola, me gustaría más información sobre sus servicios.')}" target="_blank" class="${buttonClass}">
+                            <i class="fa-brands fa-whatsapp cta-button-icon"></i> ${phone.ctaText || `WhatsApp ${phone.number || ''}`}
+                        </a>`;
+                    mainContactButtonsContainer.innerHTML += whatsappButton;
+                }
+            });
+            
+            if (data.emails && data.emails.length > 0) {
+                const emailMainCtaButton = `
+                    <a href="mailto:${data.emails[0] || ''}" class="bg-gray-100 hover:bg-gray-200 text-dynamic-primary font-semibold py-3 px-6 rounded-lg shadow-lg btn-contact-effect flex items-center justify-center min-w-[240px] text-base">
+                        <span class="iconify cta-button-icon" data-icon="mdi:email-outline"></span> Enviar Correo
+                    </a>`;
+                mainContactButtonsContainer.innerHTML += emailMainCtaButton;
+            }
+
+            if (primaryWhatsappPhone && floatingWhatsappButtonContainer) {
+                floatingWhatsappButtonContainer.innerHTML = `
+                    <a href="https://wa.me/${primaryWhatsappPhone.whatsapp}?text=${encodeURIComponent('Hola, necesito una cotización!')}" target="_blank"
+                       class="bg-dynamic-accent hover-bg-yellow-400 text-dynamic-primary p-4 rounded-full shadow-xl flex items-center justify-center primary-cta-button btn-contact-effect h-16 w-16"
+                       aria-label="Contactar por WhatsApp para cotización">
+                        <i class="fa-brands fa-whatsapp text-3xl"></i>
+                    </a>`;
+            }
+        }
+
+        // Footer
+        const currentYear = new Date().getFullYear();
+        safeSetContent('footerYear', currentYear);
+        safeSetHTML('footerCreditsPrefix', 'Un perfil en <a href="https://mercado-digital-page.github.io/espacio/" class="text-dynamic-accent font-bold hover:underline">Mercado Digital | Espacio</a>');
+
+        // Escanear íconos de Font Awesome
+        if (window.FontAwesome) {
+            window.FontAwesome.dom.watch();
+        }
+    }
+});
