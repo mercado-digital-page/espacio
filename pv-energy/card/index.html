@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Meta dinámicos se generarán con JavaScript -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="favicon.svg">
+  <!--CSS Documents-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <!--Fonts-->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <!--Scripts-->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <title>Cargando...</title>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="max-w-md w-full" id="cardContainer">
+    <!-- La tarjeta se generará dinámicamente aquí -->
+  </div>
+
+  <!-- Botón flotante de WhatsApp -->
+  <div class="fixed bottom-6 right-6 z-50" id="whatsappButton">
+    <!-- Se generará dinámicamente -->
+  </div>
+
+  <!-- Botón flotante de Facebook -->
+  <div class="fixed bottom-6 right-24 z-50" id="facebookButton">
+    <!-- Se generará dinámicamente -->
+  </div>
+
+  <!-- Incluir el template -->
+  <script src="../../card/template.js"></script>
+  
+  <!-- Configuración específica para esta tarjeta -->
+  <script>
+    // Configuración específica para esta tarjeta
+    const CLIENT_ID = 'j&l'; // Cambia este valor para mostrar diferentes clientes
+    
+    // Cargar los datos cuando la página esté lista
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCardData(CLIENT_ID);
+    });
+  </script>
+</body>
+</html>

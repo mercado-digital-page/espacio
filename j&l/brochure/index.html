@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.svg">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <title id="pageTitle">Perfil de Empresa</title>
+    <style>
+        :root {
+            --primary-color: #011248;
+            --accent-color: #FDB500;
+            --primary-text-color: #333;
+            --secondary-text-color: #555;
+            --background-light-color: #f0f2f5;
+            --background-card-color: #ffffff;
+        }
+
+        * {
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--background-light-color);
+            color: var(--primary-text-color);
+            line-height: 1.6;
+        }
+
+        /* Clases dinámicas para colores */
+        .text-dynamic-primary { color: var(--primary-color); }
+        .bg-dynamic-primary { background-color: var(--primary-color); }
+        .border-dynamic-primary { border-color: var(--primary-color); }
+        .text-dynamic-accent { color: var(--accent-color); }
+        .bg-dynamic-accent { background-color: var(--accent-color); }
+        .border-dynamic-accent { border-color: var(--accent-color); }
+        .hover-text-dynamic-accent:hover { color: var(--accent-color); }
+        .hover-bg-dynamic-accent:hover { background-color: var(--accent-color); }
+
+        .banner-container {
+            width: 100%;
+            max-height: 450px;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--primary-color);
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-image-container {
+            margin-top: -80px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .profile-image {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--background-card-color);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            border-left-width: 4px;
+            padding-left: 0.75rem;
+        }
+
+        .reliability-dial {
+            width: 120px;
+            height: 120px;
+            position: relative;
+        }
+
+        .reliability-dial circle {
+            transition: stroke-dashoffset 1s ease-out;
+        }
+
+        .reliability-dial .value-text {
+            font-size: 0.7rem;
+            font-weight: bold;
+            fill: var(--primary-color);
+        }
+
+        .service-image {
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 0.375rem;
+        }
+
+        .cta-main-icon {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-button-icon {
+            font-size: 1.8em;
+            margin-right: 0.5rem;
+        }
+
+        /* Layout improvements */
+        aside {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        aside section {
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 var(--accent-color); opacity: 0.7; }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(253, 181, 0, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(253, 181, 0, 0); }
+        }
+
+        .animate-fadeIn {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .primary-cta-button {
+            animation: pulse 2s infinite;
+        }
+
+        .card-hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(var(--rgb-primary-color), 0.1);
+        }
+
+        .btn-contact-effect {
+            transition: all 0.2s ease;
+        }
+
+        .btn-contact-effect:hover {
+            transform: translateY(-3px) scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-out 1s forwards;
+            opacity: 0;
+        }
+
+        /* Ajustes para altura automática */
+        .auto-height {
+            height: auto !important;
+            min-height: unset !important;
+        }
+
+        @media (max-width: 640px) {
+            .banner-container {
+                max-height: 250px;
+            }
+
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            #about, #whyChooseUsContainer {
+                height: auto !important;
+                min-height: unset !important;
+            }
+
+            #companyDescription, #whyChooseUsContent {
+                overflow: visible !important;
+                white-space: normal !important;
+                word-wrap: break-word !important;
+            }
+
+            aside section {
+                flex: 0 1 auto !important;
+            }
+
+            .bg-background-card-color {
+                height: auto !important;
+            }
+
+            .text-secondary-text-color {
+                white-space: normal !important;
+                overflow: visible !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background-light-color text-primary-text-color">
+
+    <div class="w-full">
+        <header class="banner-container shadow-lg">
+            <img id="bannerImg" src="" alt="Banner de la empresa" class="banner-image">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+        </header>
+
+        <div class="bg-background-card-color shadow-md">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col sm:flex-row items-center sm:items-end pt-4 pb-6">
+                    <div class="profile-image-container">
+                        <img id="profileImg" src="" alt="Foto de perfil" class="profile-image">
+                    </div>
+                    <div class="mt-4 sm:mt-0 sm:ml-6 flex-grow text-center sm:text-left">
+                        <h1 id="companyName" class="text-3xl md:text-4xl font-bold text-dynamic-primary"></h1>
+                        <p id="companyTagline" class="text-md text-secondary-text-color opacity-90"></p>
+                    </div>
+                    <nav class="mt-4 sm:mt-0 flex space-x-4 sm:space-x-6">
+                        <a href="#about"
+                            class="font-medium transition duration-300 text-dynamic-primary hover-text-dynamic-accent">Nosotros</a>
+                        <a href="#services"
+                            class="font-medium transition duration-300 text-dynamic-primary hover-text-dynamic-accent">Servicios</a>
+                        <a href="#contact"
+                            class="font-medium transition duration-300 text-dynamic-primary hover-text-dynamic-accent">Contacto</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <aside class="lg:col-span-1">
+                <section id="about" class="bg-background-card-color p-6 rounded-xl shadow-lg animate-fadeIn card-hover-effect auto-height"
+                    style="animation-delay: 0.1s;">
+                    <h2 class="section-title text-dynamic-primary border-dynamic-accent">Sobre Nosotros</h2>
+                    <p id="companyDescription" class="text-secondary-text-color leading-relaxed text-sm"></p>
+                </section>
+
+                <section id="whyChooseUsContainer"
+                    class="bg-background-card-color p-6 rounded-xl shadow-lg animate-fadeIn card-hover-effect auto-height"
+                    style="animation-delay: 0.15s;">
+                    <h2 class="section-title text-dynamic-primary border-dynamic-accent">Por Qué Elegirnos</h2>
+                    <div id="whyChooseUsContent" class="space-y-4">
+                    </div>
+                </section>
+
+                <section id="reliability"
+                    class="bg-background-card-color p-6 rounded-xl shadow-lg animate-fadeIn card-hover-effect auto-height"
+                    style="animation-delay: 0.2s;">
+                    <h2 class="section-title text-dynamic-primary border-dynamic-accent">Nivel de Confianza</h2>
+                    <div class="flex flex-col items-center">
+                        <svg id="reliabilityDial" class="reliability-dial" viewBox="0 0 36 36">
+                            <path class="text-gray-200" stroke-width="3" fill="none" stroke="currentColor"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path id="reliabilityCircleProgress" class="text-dynamic-accent" stroke-width="3" fill="none"
+                                stroke="currentColor" stroke-linecap="round" stroke-dasharray="0, 100"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <text id="reliabilityText" x="18" y="20.35" class="value-text text-dynamic-primary"
+                                text-anchor="middle"></text>
+                        </svg>
+                        <p class="mt-3 text-secondary-text-color text-center text-sm">Basado en valoraciones y proyectos.</p>
+                    </div>
+                </section>
+
+                <section id="quickContact"
+                    class="bg-background-card-color p-6 rounded-xl shadow-lg animate-fadeIn card-hover-effect auto-height"
+                    style="animation-delay: 0.3s;">
+                    <h2 class="section-title text-dynamic-primary border-dynamic-accent">Contacto Directo</h2>
+                    <div id="contactEmail" class="flex items-center mb-3">
+                        <span class="iconify mr-3 text-xl text-dynamic-primary" data-icon="mdi:email-outline"></span>
+                        <a href=""
+                            class="text-secondary-text-color hover-text-dynamic-accent transition duration-300 text-sm"></a>
+                    </div>
+                    <div id="contactPhonesContainer" class="space-y-2 mb-3"></div>
+                    <div id="contactLocation" class="flex items-start mb-4">
+                        <i class="far fa-map-marker-alt mr-3 text-xl text-dynamic-primary mt-1"></i>
+                        <div class="flex-grow">
+                            <span class="text-secondary-text-color text-sm"></span>
+                            <div id="mapContainer" class="mt-3 rounded-lg overflow-hidden"></div>
+                        </div>
+                    </div>
+                    <div id="socialMediaContainer" class="flex justify-start space-x-3 mt-4"></div>
+                </section>
+            </aside>
+
+            <div class="lg:col-span-2 space-y-8">
+                <section id="services" class="bg-background-card-color p-6 rounded-xl shadow-lg animate-fadeIn auto-height"
+                    style="animation-delay: 0.4s;">
+                    <h2 class="section-title text-dynamic-primary border-dynamic-accent">Nuestros Servicios</h2>
+                    <div id="servicesContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+                </section>
+
+                <section id="contact" class="bg-dynamic-primary text-white p-8 rounded-xl shadow-2xl animate-fadeIn auto-height"
+                    style="animation-delay: 0.5s;">
+                    <div class="text-center">
+                        <i class="far fa-shield-check cta-main-icon text-dynamic-accent mx-auto"></i>
+                        <h2 id="ctaTitle" class="text-3xl font-bold mb-3"></h2>
+                        <p id="ctaText" class="text-lg opacity-90 mb-8 max-w-xl mx-auto"></p>
+                        <div id="mainContactButtonsContainer"
+                            class="flex flex-col sm:flex-row justify-center items-center gap-4"></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="bg-dynamic-primary text-gray-300 py-8 text-center mt-12">
+            <p>&copy; <span id="footerYear"></span> Mercado Digital. Todos los derechos reservados.</p>
+            <p class="text-sm opacity-80 mt-2">
+                <span id="footerCreditsPrefix"></span>
+            </p>
+        </footer>
+    </div>
+
+    <div id="floatingWhatsappButtonContainer" class="floating-whatsapp">
+        <a href="#" class="">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+    <script>
+        // Configuración del cliente a mostrar
+        window.companyProfileConfig = {
+            companyId: 'j&l'
+        };
+    </script>
+    <script src="https://mercado-digital-page.github.io/espacio/brochure/template.js"></script>
+</body>
+
+</html>
