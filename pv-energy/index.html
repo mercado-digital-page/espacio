@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Dynamic metadata will be set by template.js -->
+  <meta name="description" content="">
+  <meta property="og:title" content="">
+  <meta property="og:description" content="">
+  <meta property="og:image" content="">
+  <meta property="og:url" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <link rel="shortcut icon" href="">
+  
+  <!-- CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+  <!-- Scripts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+  
+  <style>
+    * {
+      font-family: 'Montserrat', sans-serif;
+    }
+  </style>
+  
+  <title>Cargando...</title>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <div id="app" class="min-h-screen flex flex-col items-center">
+    <!-- Content will be loaded here -->
+    <div class="text-center p-8">
+      <div class="animate-pulse flex flex-col items-center">
+        <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
+        <div class="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configuración dinámica
+    const CLIENT_ID = "pv-energy"; // Cambia este ID para mostrar otro cliente
+    const JSON_URL = "https://mercado-digital-page.github.io/admin/clientes/data.json";
+    const TEMPLATE_JS = "../template.js";
+  </script>
+  
+  <script src="../template.js"></script>
+</body>
+</html>
